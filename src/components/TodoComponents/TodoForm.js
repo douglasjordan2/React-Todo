@@ -30,10 +30,10 @@ class TodoForm extends Component {
             </button>
             <button
               type="button"
-              onClick = { this.props.clearAll }
+              onClick = { this.props.clear }
               style = { submit }
             >
-              Clear All
+              Clear Completed
             </button>
           </div>
         </form>

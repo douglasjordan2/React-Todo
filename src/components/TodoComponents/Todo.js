@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default 
 class extends Component {
-  containerStyles = (isActive, id, isComplete) => {
+  containerStyles = (isActive, position, isComplete) => {
     return ({
       display: 'flex',
       justifyContent: 'space-between',
@@ -12,7 +12,7 @@ class extends Component {
       opacity: isActive ? '1' : '0',
       marginTop: isActive ? '0' : '20px',
       marginBottom: '1%',
-      transition: `all 1s ease-out ${id / 5}s`,
+      transition: `all 1s ease-out ${position / 5}s`,
       background: '#6abed8'
     });
   }
@@ -26,9 +26,9 @@ class extends Component {
   }
 
   render() {
-    const { title, id, complete } = this.props.todo;
+    const { title, id, complete, position } = this.props.todo;
     return (
-      <div style = { this.containerStyles(this.props.activeTab, id, complete) }>
+      <div style = { this.containerStyles(this.props.activeTab, position, complete) }>
         <h1 style = { this.h1Styles(complete) }>{ title }</h1>
         <input 
           type="checkbox"

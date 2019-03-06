@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'uuid';
 
 import './index.css';
 import DailyTab from './components/Timeframes/Daily/Tab';
@@ -14,7 +15,8 @@ class App extends React.Component {
     monthlyTodos: monthlyTodos,
     title: '',
     id: '',
-    complete: false
+    complete: false,
+    position: ''
   }
 
   changeActive = () => {
@@ -25,7 +27,8 @@ class App extends React.Component {
     event.preventDefault();
     let newTodo = {
       title: this.state.title,
-      id: this.state.activeTab ? this.state.dailyTodos.length : this.state.monthlyTodos.length
+      id: uuid.v4(),
+      position: this.activeTab ? this.state.dailyTodos.length : this.state.monthlyTodos.length
     }
     if(this.state.activeTab) {
       this.setState(prevState => { 
@@ -33,7 +36,8 @@ class App extends React.Component {
           dailyTodos: [...prevState.dailyTodos, newTodo],
           title: '',
           id: '',
-          complete: false
+          complete: false,
+          position: ''
         }
       })
     } else {
@@ -48,11 +52,19 @@ class App extends React.Component {
     }
   }
 
-  clearAll = () => {
+  clear = () => {
     if(this.state.activeTab) {
-      this.setState({ dailyTodos: [] })
+      this.setState({ dailyTodos: [...dailyTodos.filter(a => {
+        if(!a.complete) {
+          return a;
+        }
+      })] })
     } else {
-      this.setState({ monthlyTodos: [] })
+      this.setState({ monthlyTodos: [...monthlyTodos.filter(a => {
+        if(!a.complete) {
+          return a;
+        }
+      })] })
     }
   }
 
@@ -79,6 +91,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.dailyTodos)
     return (
       <div style = { container }>
         <h1 style = { h1 }>todo:</h1>
@@ -101,7 +114,7 @@ class App extends React.Component {
           addTodo = { this.addTodo }
           handleChange = { this.handleChange }
           title = { this.state.title }
-          clearAll = { this.clearAll }
+          clear = { this.clear }
         />
       </div>
     );
@@ -111,36 +124,42 @@ class App extends React.Component {
 const dailyTodos = [
   {
     title: 'work',
-    id: 1,
-    complete: false
+    id: uuid.v4(),
+    complete: false,
+    position: 1
   },
   {
     title: 'finish styling this project',
-    id: 2,
-    complete: false
+    id: uuid.v4(),
+    complete: false,
+    position: 2
   },
   {
     title: 'class',
-    id: 3,
-    complete: false
+    id: uuid.v4(),
+    complete: false,
+    position: 3
   }
 ]
 
 const monthlyTodos = [
   {
     title: 'give this todo app a responsive design',
-    id: 1,
-    complete: false
+    id: uuid.v4(),
+    complete: false,
+    position: 1
   },
   {
     title: 'refactor these tabs into one component',
-    id: 2,
-    complete: false
+    id: uuid.v4(),
+    complete: false,
+    position: 2
   },
   {
     title: 'create a button to make additional tabs',
-    id: 3,
-    complete: false
+    id: uuid.v4(),
+    complete: false,
+    position: 3
   }
 ]
 
