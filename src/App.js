@@ -2,6 +2,7 @@ import React from 'react';
 import uuid from 'uuid';
 
 import './index.css';
+import Search from './components/TodoComponents/Search';
 import DailyTab from './components/Timeframes/Daily/Tab';
 import MonthlyTab from './components/Timeframes/Monthly/Tab';
 
@@ -16,7 +17,26 @@ class App extends React.Component {
     title: '',
     id: '',
     complete: false,
-    position: ''
+    position: '',
+    search: ''
+  }
+
+  search = () => {
+    if(this.state.activeTab) {
+      this.setState(prevState => {
+        return {
+          dailyTodos: this.state.dailyTodos.filter(a => a.title.split(" ").includes(this.state.search)),
+          search: ''
+        }
+      })
+    } else {
+      this.setState(prevState => {
+        return {
+          monthlyTodos: this.state.monthlyTodos.filter(a => a.title.split(" ").includes(this.state.search)),
+          search: ''
+        }
+      })
+    }
   }
 
   changeActive = () => {
@@ -70,9 +90,10 @@ class App extends React.Component {
 
   markComplete = id => {
     if(this.state.activeTab) {
-      this.setState({ dailyTodos: this.state.dailyTodos.map(a => {
+      this.setState({ dailyTodos: this.state.dailyTodos = this.state.dailyTodos.map(a => {
         if(a.id == id) {
           a.complete = !a.complete;
+          return a;
         }
         return a;
       }) })
@@ -91,10 +112,14 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.dailyTodos)
     return (
       <div style = { container }>
         <h1 style = { h1 }>todo:</h1>
+        <Search 
+          handleChange = { this.handleChange }
+          search = { this.search }
+          searchVal = { this.state.search }
+        />
         <div style = { tabContainer }>
           <DailyTab 
             activeTab = {this.state.activeTab}
@@ -173,7 +198,8 @@ const container = {
   justifyContent: 'space-between',
   padding: '0',
   background: '#181712',
-  color: 'white'
+  color: 'white',
+  position: 'relative'
 }
 
 const h1 = {
